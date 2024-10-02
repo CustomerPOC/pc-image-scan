@@ -24,19 +24,15 @@ headers = {
 }
 
 response     = requests.request(method, apiURL, headers=headers, data=body, params=params)
-total_images = response.headers.get('Total-Count')
+total_images = int(response.headers.get('Total-Count'))
 data         = response.json()
 
-if (total_images <= params["limit"]):
-    print(data)
-
-if total_images <= params["limit"]:
-    for _ in range(10):
+if total_images >= params["offset"]:
+    for _ in range(total_images):
         print(f"Current offset: {params['offset']}")
         params["offset"] += 1
         response = requests.request(method, apiURL, headers=headers, data=body, params=params)
         print(response.json())
-
 
 
 # total_images = response.headers.get('Total-Count')
