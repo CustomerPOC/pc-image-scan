@@ -30,7 +30,7 @@ data         = response.json()
 if (total_images <= params["limit"]):
     print(data)
 
-if (total_images <= params["limit"]):
+if total_images <= params["limit"]:
     for _ in range(10):
         print(f"Current offset: {params['offset']}")
         params["offset"] += 1
