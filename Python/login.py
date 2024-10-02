@@ -1,9 +1,7 @@
 import json
 import requests
 
-# // Get Login Token
-#
-def login(url, username, password):
+def getAuthToken(url, username, password):
     loginURL = url + "/login"
     payload  = json.dumps({
         'username': username,
