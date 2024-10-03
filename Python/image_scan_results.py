@@ -1,13 +1,11 @@
-from login import getAuthToken
+from functions import getAuthToken, get_size, convert_size
 import requests
-import json
-import os;
+import os
 
 url        = os.getenv("PRISMA_CLOUD_URL") #// Authenticate against Prisma Cloud API URL, i.e. (https://api2.prismacloud.io)
 password   = os.getenv("PRISMA_CLOUD_SECRET")
 username   = os.getenv("PRISMA_CLOUD_IDENTITY")
 consoleURL = os.getenv("PRISMA_CLOUD_CONSOLE")
-
 endpoint   = "api/v1/images"
 method     = "GET"
 body       = {}
@@ -17,25 +15,24 @@ params     = {
     "offset": 0
 }
 
-token   = getAuthToken(url=url, password=password, username=username)
+
 headers = {
     'Accept': 'application/json',
-    'x-redlock-auth': token
+    'x-redlock-auth': getAuthToken(url=url, password=password, username=username)
 }
 
-response     = requests.request(method, apiURL, headers=headers, data=body, params=params)
-total_images = response.headers.get('Total-Count')
-data         = response.json()
-
-total_images = response.headers.get('Total-Count')
-print(f"Total image count: {total_images}")
+response      = requests.request(method, apiURL, headers=headers, data=body, params=params)
+total_images  = response.headers.get('Total-Count')
+response_data = response.json()
 
 if total_images is None:
     print("No images found.")
     exit()
 
 total_images = int(total_images)
-all_results = []  
+print(f"Total image count: {total_images}")
+
+all_results  = []  
 
 while params["offset"] < total_images:
     print(f"Fetching records {params['offset']} to {params['offset'] + params['limit']}")
@@ -43,27 +40,10 @@ while params["offset"] < total_images:
     response = requests.request(method, apiURL, headers=headers, data=body, params=params)
     current_data = response.json()
     
-    # Add current batch to all results
     all_results.extend(current_data)
-    
-    # Increment offset for next batch
     params["offset"] += params["limit"]
 
+
+total_size = get_size(all_results)
 print(f"Retrieved {len(all_results)} total records")
-
-
-# total_images = response.headers.get('Total-Count')
-# print(f"Total image count: {total_images}")
-
-# print("\n--- Response Details ---")
-# print(f"Status Code: {response.status_code}")
-
-
-
-# print("\n--- Response Body ---")
-# try:
-#     json_response = response.json()
-#     print(json.dumps(json_response, indent=2))
-# except json.JSONDecodeError:
-#     print("Response is not JSON. Raw content:")
-#     print(response.text)
+print(f"Data size: {convert_size(total_size)}")
