@@ -1,6 +1,12 @@
 # Prisma Cloud Container Image Scan Results
 
-This script can be used to return all container image scan results in JSON format.
+This script can be used to return all container image scan results from Prisma Cloud in JSON format.
+
+- [Setup](#setup)
+- [Script Files](#script-files)
+- [Script Variables](#script-variables)
+
+-----
 
 ## Setup
 
@@ -20,12 +26,8 @@ This script can be used to return all container image scan results in JSON forma
     | PRISMA_CLOUD_CONSOLE | `string` | Runtime console path (Runtime -> Manage -> System -> Utilities )
 
 > [!NOTE]
-> If you do not use environment variables you will need to set the values for the following
-> by editing image_scan_results.py
-
-
-> [!WARNING]
-> Do not store passwords/secrets that are checked into a repo as they will be visible to anyone with access
+> If you do not use environment variables you will need to set the [values](#script-variables) 
+> manually by editing image_scan_results.py for all variables using `os.getenv`
 
 
 3. Run the script to return results
@@ -34,27 +36,20 @@ This script can be used to return all container image scan results in JSON forma
     python3 ./image_scan_results.py
     ```
 
-> [!WARNING]
+> [!NOTE]
 > This API generates a lot of data. 1000 images returned will result in a file that is ~300MB in size. 
 
 
-## Files
+## Script Files
+
+There are only 2 files used by this script, functions that returns an auth token and provides 2 other functions for calculating the size
+of the response, and image_scan_results that query the API to return results and write them to a timestamped file.
 
  | Name | Purpose | 
  |------|------|
- | functions.py | Authenticate against the Prisma Cloud API to return a bearer token for API requests | 
- | image_scan_results.py | Return all container image scan results |
+ | [functions.py](./Python/functions.py) | Authenticate against the Prisma Cloud API to return a bearer token for API requests | 
+ | [image_scan_results.py](./Python/image_scan_results.py) | Return all container image scan results |
  
-
-
-### Variables set with Environment Variables
-
- | Name | Type | 
- |------|------|
- | url | `string` | 
- | username | `string` |
- | password | `securestring`  |
- | consoleURL | `string` |
 
 ## Script Variables
 
@@ -63,6 +58,10 @@ The following variables are used inside of the script to return results. The par
 
  | Name | Type | Default Value |
  |------|------|-------------|
+ | url | `string` | os.getenv("PRISMA_CLOUD_URL")
+ | username | `string` | os.getenv("PRISMA_CLOUD_SECRET")
+ | password | `securestring` | os.getenv("PRISMA_CLOUD_IDENTITY")
+ | consoleURL | `string` | os.getenv("PRISMA_CLOUD_CONSOLE")
  | timestamp | `string` | datetime.now().strftime('%Y%m%d_%H%M%S')
  | fileName | `string` | scan_results_{timestamp}.json
  | endpoint | `string` | api/v1/images
@@ -70,5 +69,3 @@ The following variables are used inside of the script to return results. The par
  | body | `string` | {}
  | apiURL | `string` | {consoleURL}/{endpoint}
  | params | `string` | ``` { "limit": 100, "offset": 0 }```
-
-
