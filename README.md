@@ -29,6 +29,9 @@ This script can be used to return all container image scan results from Prisma C
 > If you do not use environment variables you will need to set the [values](#script-variables) 
 > manually by editing image_scan_results.py for all variables using `os.getenv`
 
+> [!CAUTION]
+> Do not store sensitive data in a code repo or inside of the script files
+
 
 3. Run the script to return results
 
