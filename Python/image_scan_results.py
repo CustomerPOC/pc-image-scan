@@ -13,7 +13,7 @@ method     = "GET"
 body       = {}
 apiURL     = f"{consoleURL}/{endpoint}"
 params     = {
-    "limit": 1,
+    "limit": 100,
     "offset": 0
 }
 
@@ -24,15 +24,32 @@ headers = {
 }
 
 response     = requests.request(method, apiURL, headers=headers, data=body, params=params)
-total_images = int(response.headers.get('Total-Count'))
+total_images = response.headers.get('Total-Count')
 data         = response.json()
 
-if total_images >= params["offset"]:
-    for _ in range(total_images):
-        print(f"Current offset: {params['offset']}")
-        params["offset"] += 1
-        response = requests.request(method, apiURL, headers=headers, data=body, params=params)
-        print(response.json())
+total_images = response.headers.get('Total-Count')
+print(f"Total image count: {total_images}")
+
+if total_images is None:
+    print("No images found.")
+    exit()
+
+total_images = int(total_images)
+all_results = []  
+
+while params["offset"] < total_images:
+    print(f"Fetching records {params['offset']} to {params['offset'] + params['limit']}")
+    
+    response = requests.request(method, apiURL, headers=headers, data=body, params=params)
+    current_data = response.json()
+    
+    # Add current batch to all results
+    all_results.extend(current_data)
+    
+    # Increment offset for next batch
+    params["offset"] += params["limit"]
+
+print(f"Retrieved {len(all_results)} total records")
 
 
 # total_images = response.headers.get('Total-Count')
@@ -50,4 +67,3 @@ if total_images >= params["offset"]:
 # except json.JSONDecodeError:
 #     print("Response is not JSON. Raw content:")
 #     print(response.text)
-
