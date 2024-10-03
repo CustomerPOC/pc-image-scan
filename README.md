@@ -23,12 +23,10 @@ This script can be used to return all container image scan results in JSON forma
 > If you do not use environment variables you will need to set the values for the following
 > by editing image_scan_results.py
 
-    | Variable |
-    |----------|
-    | url 
-    | username 
-    | password  
-    | consoleURL
+        - url 
+        - username 
+        - password  
+        - consoleURL 
  
 
 > [!WARNING]
