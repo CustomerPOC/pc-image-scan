@@ -1,5 +1,20 @@
-# pc-image-scan
-Prisma Cloud Container Image Scan Results
+# Prisma Cloud Container Image Scan Results
+
+This script can be used to return all container image scan results in JSON format.
+
+## Setup
+
+1. Create the following environment variables 
+
+    | Name | Type | Description |
+    |------|------|-------------|
+    | PRISMA_CLOUD_URL | `string` | Your Prisma Cloud URL in the format: https://apiX.prismacloud.io where X is your app stack number
+    | PRISMA_CLOUD_IDENTITY | `string` | Username or access key with the ability to access container image scan reports.
+    | PRISMA_CLOUD_SECRET | `string` | Password for username or access key above.
+    | PRISMA_CLOUD_CONSOLE | `string` | Runtime console path (Runtime -> Manage -> System -> Utilities )
+
+> [!WARNING]
+> This API generates a lot of data. 1000 images returned will result in a file that is ~300MB in size. 
 
 
 ## Files
@@ -27,7 +42,7 @@ use them to authenticate and make API calls against your Prisma Cloud tenant.
 > If you do not use environment variables you will need to set the values for the following manually
 > in image_scan_results.py
 
----
+### Variables set with Environment Variables
 
  | Name | Type | 
  |------|------|
@@ -43,11 +58,13 @@ use them to authenticate and make API calls against your Prisma Cloud tenant.
 
 ## Script Variables
 
-The following variables are used inside of the script to return results. The params variable sets the returned limit to 100 (maximum) and the offset to 0. The limit and offset can both be adjusted, but offset is set automatically by the script to increment and return all results. If there is a specific result you want to return and you know the offset you can pull just that image using a limit of 1 and the appropriate offset value.
+The following variables are used inside of the script to return results. The params variable sets the returned limit to 100 (maximum) and the offset to 0 (start of request). The limit and offset can both be adjusted, but offset is set automatically by the script to increment and return all results. If there is a specific result you want to return and you know the offset you can pull just that image using a limit of 1 and the appropriate offset value.
 
 
  | Name | Type | Default Value |
  |------|------|-------------|
+ | timestamp | `string` | datetime.now().strftime('%Y%m%d_%H%M%S')
+ | fileName | `string` | scan_results_{timestamp}.json
  | endpoint | `string` | api/v1/images
  | method | `string` | GET
  | body | `string` | {}
@@ -55,14 +72,3 @@ The following variables are used inside of the script to return results. The par
  | params | `string` | ``` { "limit": 100, "offset": 0 }```
 
 
-## Notes
-
-This script stores the returned data in a variable named all_results. This data only exists at script runtime. If you want to see the results on the screen you can add the following line to the bottom of the script:
-
-```python
-print(all_results)
-```
-
-> [!WARNING]
-> This API endpoint generates a lot of data. As an example, returning just 10 images results in ~4MB of data. 
-> 1000 images would generate a response that is ~400MB. 
