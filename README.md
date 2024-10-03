@@ -23,11 +23,6 @@ This script can be used to return all container image scan results in JSON forma
 > If you do not use environment variables you will need to set the values for the following
 > by editing image_scan_results.py
 
-        - url 
-        - username 
-        - password  
-        - consoleURL 
- 
 
 > [!WARNING]
 > Do not store passwords/secrets that are checked into a repo as they will be visible to anyone with access
@@ -51,22 +46,6 @@ This script can be used to return all container image scan results in JSON forma
  | image_scan_results.py | Return all container image scan results |
  
 
-## Environment Variables
-
-The following settings should be defined as environment variables. The script will pull these values from the environment and 
-use them to authenticate and make API calls against your Prisma Cloud tenant.
-
- | Name | Type | Description |
- |------|------|-------------|
- | PRISMA_CLOUD_URL | `string` | Your Prisma Cloud URL in the format: https://apiX.prismacloud.io where X is your app stack number
- | PRISMA_CLOUD_IDENTITY | `string` | Username or access key with the ability to access container image scan reports.
- | PRISMA_CLOUD_SECRET | `string` | Password for username or access key above.
- | PRISMA_CLOUD_CONSOLE | `string` | Runtime console path (Runtime -> Manage -> System -> Utilities )
-
-
-> [!NOTE]
-> If you do not use environment variables you will need to set the values for the following manually
-> in image_scan_results.py
 
 ### Variables set with Environment Variables
 
@@ -76,10 +55,6 @@ use them to authenticate and make API calls against your Prisma Cloud tenant.
  | username | `string` |
  | password | `securestring`  |
  | consoleURL | `string` |
-
-
-
-
 
 ## Script Variables
 
