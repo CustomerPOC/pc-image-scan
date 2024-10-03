@@ -4,7 +4,13 @@ This script can be used to return all container image scan results in JSON forma
 
 ## Setup
 
-1. Create the following environment variables 
+1. Clone this repo to your local system
+
+    ```shell
+    git clone https://github.com/CustomerPOC/pc-image-scan.git
+    ```
+
+2. Create the following environment variables on your local system
 
     | Name | Type | Description |
     |------|------|-------------|
@@ -12,6 +18,12 @@ This script can be used to return all container image scan results in JSON forma
     | PRISMA_CLOUD_IDENTITY | `string` | Username or access key with the ability to access container image scan reports.
     | PRISMA_CLOUD_SECRET | `string` | Password for username or access key above.
     | PRISMA_CLOUD_CONSOLE | `string` | Runtime console path (Runtime -> Manage -> System -> Utilities )
+
+3. Run the script to return results
+
+    ```shell
+    python3 ./image_scan_results.py
+    ```
 
 > [!WARNING]
 > This API generates a lot of data. 1000 images returned will result in a file that is ~300MB in size. 
