@@ -24,11 +24,12 @@ This script can be used to return all container image scan results in JSON forma
 > by editing image_scan_results.py
 
     | Variable |
-    |------|
-    | url | 
-    | username | 
-    | password | 
-    | consoleURL | 
+    |----------|
+    | url 
+    | username 
+    | password  
+    | consoleURL
+ 
 
 > [!WARNING]
 > Do not store passwords/secrets that are checked into a repo as they will be visible to anyone with access
