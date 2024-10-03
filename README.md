@@ -25,19 +25,19 @@ This script can be used to return all container image scan results from Prisma C
     | PRISMA_CLOUD_SECRET | `string` | Password for username or access key above.
     | PRISMA_CLOUD_CONSOLE | `string` | Runtime console path (Runtime -> Manage -> System -> Utilities )
 
-> [!NOTE]
-> If you do not use environment variables you will need to set the [values](#script-variables) 
-> manually by editing image_scan_results.py for all variables using `os.getenv`
-
-> [!CAUTION]
-> Do not store sensitive data in a code repo or inside of the script files
-
 
 3. Run the script to return results
 
     ```shell
     python3 ./image_scan_results.py
     ```
+
+> [!NOTE]
+> If you do not use environment variables you will need to set the [values](#script-variables) 
+> manually by editing image_scan_results.py for all variables using `os.getenv`
+
+> [!CAUTION]
+> Do not store sensitive data in a code repo or inside of the script files
 
 > [!NOTE]
 > This API generates a lot of data. 1000 images returned will result in a file that is ~300MB in size. 
