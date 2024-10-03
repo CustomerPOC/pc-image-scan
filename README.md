@@ -19,6 +19,20 @@ This script can be used to return all container image scan results in JSON forma
     | PRISMA_CLOUD_SECRET | `string` | Password for username or access key above.
     | PRISMA_CLOUD_CONSOLE | `string` | Runtime console path (Runtime -> Manage -> System -> Utilities )
 
+    > [!NOTE]
+    > If you do not use environment variables you will need to set the values for the following
+    > by editing image_scan_results.py
+
+    |------|
+    | url | 
+    | username | 
+    | password | 
+    | consoleURL | 
+
+    > [!WARNING]
+    > Do not store passwords/secrets that are checked into a repo as they will be visible to anyone with access
+
+
 3. Run the script to return results
 
     ```shell
@@ -64,8 +78,7 @@ use them to authenticate and make API calls against your Prisma Cloud tenant.
  | consoleURL | `string` |
 
 
-> [!WARNING]
-> Do not store passwords/secrets that are checked into a repo as they will be visible to anyone with access
+
 
 
 ## Script Variables
